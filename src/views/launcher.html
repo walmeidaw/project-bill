@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lancador Projeto Bill</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/scroll.css" />
+    <link rel="stylesheet" href="../css/launcher.css" />
+  </head>
+  <body>
+    <section id="launcher-box">      
+      <div class="launcher-header">
+        <header>
+          <h1 class="laucher-title">Bill PC</h1>
+          <span class="laucher-subtitle">O melhor ajudante de um narrador</span>
+        </header>
+      </div>
+
+      <aside id="action-box">
+        <div class="action-item" id="new-document" tabindex="0" onclick="createDocument()">
+          <div class="action-topper"><img src="../img/new.png" alt="new collection icon" width="64px" /></div>
+          <div class="action-name">Nova Coleção </div>
+        </div>
+        <div class="action-item" id="open-document" tabindex="0" onclick="openDocument()">
+          <div class="action-topper"><img src="../img/open.png" alt="open collection icon" width="64px" /></div>
+          <div class="action-name">Abrir Coleção </div>
+        </div>
+      </aside>
+
+      <main id="document-box">
+        <h2 class="document-box-title">Coleções recentes</h2>
+        <div class="document-list">
+          <section class="document-empty" tabindex="1" onclick="createDocument()">Crie sua primeira coleção →</section>
+          <!-- <section class="document-preview" tabindex="0">
+            <header class="document-preview-header">
+              <h2 class="document-preview-title">O Livro das Sombras - A Magia do Reino de Glob</h2>
+              <span class="document-preview-subtitle"></span>
+            </header>
+            <article class="document-preview-description">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam optio repudiandae sunt quasi? Doloribus iusto earum quibusdam officia dignissimos quisquam vel, rem, ad accusamus sapiente velit, cum illo quasi dolores. Nisi dolores rerum veritatis maiores. Ad, incidunt magnam non expedita adipisci, inventore odit, consequuntur quo sequi cum ullam ipsum officiis labore voluptate reiciendis exercitationem ab. Sed ipsam nisi assumenda facilis. Ullam neque ab asperiores esse repellendus veritatis? Soluta, doloribus voluptate! Id sapiente nulla, earum, sit tempore veritatis soluta cum dolorem eligendi, expedita repellendus voluptates. Tempora fugiat numquam amet illum quas.
+            </article>
+            <footer class="document-preview-footer">
+              Última edição <time>2 de janeiro de 2024, às 23:47</time>
+            </footer>
+          </section>
+          <section class="document-preview" tabindex="0">
+            <header class="document-preview-header">
+              <h2 class="document-preview-title">O Livro das Sombras Ep 2</h2>
+              <span class="document-preview-subtitle"></span>
+            </header>
+            <article class="document-preview-description"></article>
+            <footer class="document-preview-footer">
+              Última edição <time>2 de janeiro de 2024, às 23:47</time>
+            </footer>
+          </section> -->
+        </div>
+      </main>
+    </section>
+
+    <script>
+      function openDocument(){    
+        const result = window.BillPc.openDocument();
+        if( result != null ){
+          window.BillPc.newDocument( result )
+        }
+      }
+
+      function createDocument(){
+        window.BillPc.newDocument()
+      }
+
+
+    </script>
+  </body>
+</html>

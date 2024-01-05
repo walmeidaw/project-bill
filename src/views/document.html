@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>O Livro das Sombras - A Magia do Reino de Glob</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/scroll.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/editor.css" />
+
+  <script src="../../node_modules/quill/dist/quill.min.js"></script>
+  <link rel="stylesheet" href="../../node_modules/quill/dist/quill.snow.css">
+</head>
+
+<body>
+  <div id="holder">
+    <header id="document-header">
+      <span id="app-icon"></span>
+      <div id="app-name">Projeto Bill</div>
+      <div id="document-title"></div>
+      <div id="document-file"></div>
+      <div id="document-lastUpdate">Atualizado em <time id="document-updatedat"></time></div>
+    </header>
+    <aside>
+    </aside>
+    <main id="content-main">
+      <div id="document-editor"></div>
+    </main>
+  </div>
+
+  <script>
+    let data = {
+      filepath: null,
+      title: "Novo documento",
+      content: "",
+      createdAt: new Date(),
+      updatedAt: null
+    }
+
+    let saving = false;
+
+    var toolbar = {
+      container: [
+        [ 'save' ],
+
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['clean']                                         // remove formatting button
+      ],
+      handlers: {
+        'save': saveDocument
+      }
+    };
+
+    var title, resume, updated, container;
+
+    window.addEventListener('load', (event) => {
+      title = document.getElementById('document-title')
+      updated = document.getElementById('document-updatedat')
+
+      
+      var icons = Quill.import('ui/icons');
+      icons['save'] = saveIcon;
+      editor = new Quill('#document-editor', {
+        theme: 'snow',
+        modules: {
+          toolbar,
+          keyboard: {
+            bindings: {
+              save: {
+                key: 83,
+                shortKey: true,
+                handler: saveDocument
+              },
+            }
+          }
+        },
+      });
+
+      const filepath = getFilepath();
+
+      if (filepath != null) {
+        loadFile(filepath)
+      }
+
+      loadData();
+    })
+
+    function getFilepath() {
+      const searchParams = new URLSearchParams(window.location.search);
+
+      if (searchParams.has('filepath')) {
+        const filepath = searchParams.get('filepath')
+        if (filepath) {
+          return decodeURI(filepath)
+        }
+      }
+
+      return null
+    }
+
+    function loadFile(filepath) {
+      const _data = window.BillPc.loadDocument(filepath);
+      document.getElementById('document-file').textContent = filepath
+      data = { ...data, ...JSON.parse(_data), filepath }
+    }
+
+    function loadData() {
+      if (title) {
+        title.innerText = data.title
+        window.BillPc.setTitle(data.title)
+      }
+      if (editor && editor.root) editor.root.innerHTML = data.content
+      if (updated && data.updatedAt) {
+        document.getElementById('document-lastUpdate').hidden = false
+        updated.innerText = new Date(data.updatedAt).toLocaleString()
+      } else {
+        document.getElementById('document-lastUpdate').hidden = true
+      }
+    }
+
+    async function saveDocument() {
+      if( saving ) return;
+
+      saving = true;
+      document.querySelector('.ql-save').classList.add('heartbeat');
+      document.querySelector('.ql-save svg').setAttribute('fill', '#cdcdcd')
+      
+      data = window.BillPc.saveDocument({
+        ...data,
+        updatedAt: new Date(),
+        content: editor.root.getInnerHTML()
+      });
+
+      await new Promise((resolve) => { setTimeout(() => { resolve() }, 1000) }) ;
+
+      document.querySelector('.ql-save').classList.remove('heartbeat');
+      document.querySelector('.ql-save svg').setAttribute('fill', '#f7567c')
+
+
+      loadData();
+      saving= false;
+    }
+
+    const saveIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="#f7567c"><path d="M232-119q-47.637 0-80.319-32.681Q119-184.363 119-232v-496q0-47.638 32.681-80.319Q184.363-841 232-841h402q22.365 0 42.977 8.239T715-807l92 92q17.522 17.411 25.761 38.023Q841-656.365 841-634v402q0 47.637-32.681 80.319Q775.638-119 728-119H232Zm248-152q42.5 0 72.25-29.75T582-373q0-42.5-29.75-72.25T480-475q-42.5 0-72.25 29.75T378-373q0 42.5 29.75 72.25T480-271ZM337.5-541h214q22.8 0 39.65-16.825Q608-574.65 608-597.412v-24.825Q608-645 591.15-662q-16.85-17-39.65-17h-214q-22.8 0-39.65 16.825Q281-645.35 281-622.588v24.825Q281-575 297.85-558q16.85 17 39.65 17Z"/></svg>'
+  </script>
+</body>
+
+</html>

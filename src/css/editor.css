@@ -1,0 +1,75 @@
+#holder{
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(var(--color-highlight), 1);
+}
+
+#document-header{
+    height: 48px;
+    display: flex;
+    -webkit-app-region: drag;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    gap: .5rem;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+    background-color: rgba(var(--color-highlight), 1);
+}
+
+#app-name{
+    font-weight: bold;
+}
+
+#document-lastUpdate,
+#document-file{
+    opacity: 0.4;
+}
+
+#content-main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(var(--color-highlight), 1);
+}
+
+#content-main .ql-toolbar{
+    position: sticky;
+    top: 48px;
+    z-index: 999;
+    background-color: rgba(var(--color-highlight), 1);
+}
+
+#document-editor{
+    background-color: rgba(var(--color-highlight), 1);
+    max-width: 21cm;
+    min-height: 27cm;
+    width: 100%;
+    margin: 96px auto 48px;
+    padding: 1.5cm 1.5cm 2cm 2cm;
+    border: 1px solid gainsboro;
+    line-height: 1.2;
+
+    font-family: 'Spectral', serif;
+    color: rgb(var(--color-foreground));
+}
+
+#document-editor h1{
+    font-family: 'Playfair Display SC', serif !important;
+    text-transform: uppercase;
+    font-size: 26pt;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+
+    border-top: 1px solid rgba(var(--color-foreground), 1);
+    border-bottom: 1px solid rgba(var(--color-foreground), 1);
+}
+
+#document-editor p{ margin: 1rem 0; }
+#document-editor p + p{ margin-top: 0; }
