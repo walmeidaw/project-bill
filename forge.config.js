@@ -10,10 +10,12 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
+        skipUpdateIcon: false,
         authors: '@wlln.rds',
         description: 'Seu cenário em forma de enciclopédia',
         setupIcon: join(__dirname,'src', 'icons','setup.ico'),
-        setupExe: 'Project Bill.exe'
+        iconUrl: 'https://raw.githubusercontent.com/walmeidaw/project-bill/master/src/icons/setup.ico',
+        setupExe: 'Projeto Bill.exe'
       }
     },
     {

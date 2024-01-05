@@ -1,17 +1,18 @@
-const { BrowserWindow, ipcMain, Menu, MenuItem } = require('electron')
+const { BrowserWindow, ipcMain, dialog } = require('electron')
 const { join } = require('path')
 
 function Launcher() {
   const launcherWindow = new BrowserWindow({
-    width: 1024,
-    height: 800,
+    width: 800,
+    height: 600,
     maximizable: false,
     center: true,
-    resizable: false,
-    frame: false,
-    transparent: true,
     titleBarStyle: 'hidden',
-    titleBarOverlay: false,
+    titleBarOverlay: {
+      height:48,
+      color: '#fcfcfc',
+      symbolColor: '#f7567c'
+    },
     icon:  join(__dirname, '..', 'icons', 'setup.png'),
     webPreferences: {
       preload: join(__dirname, '..', 'app', 'preload.js'),
@@ -20,17 +21,17 @@ function Launcher() {
   launcherWindow.loadFile(join(__dirname, '..', 'views', 'launcher.html'));
 };
 
-function Document( filepath ) {
+function Document( filepath = null ) {
   const documentWindow = new BrowserWindow({
     width: 1024,
     height: 800,
     titleBarStyle: 'hidden',
-    icon:  join(__dirname, '..', 'icons', 'app.png'),
     titleBarOverlay: {
       height:48,
       color: '#fcfcfc',
       symbolColor: '#f7567c'
     },
+    icon:  join(__dirname, '..', 'icons', 'app.png'),
     webPreferences: {
       preload: join(__dirname, '..', 'app', 'preload.js'),
     },
@@ -42,14 +43,18 @@ function Document( filepath ) {
       win.setTitle(title)
   })
 
-  const encoded_filepath = encodeURI( filepath )
-
   documentWindow.maximize();
-  documentWindow.loadFile(join(__dirname, '..', 'views', 'document.html'), {
-    query : {
-      "filepath": encoded_filepath
-    }
-  });
+
+  if( filepath && filepath != null){
+    const encoded_filepath = encodeURI( filepath )  
+    documentWindow.loadFile(join(__dirname, '..', 'views', 'document.html'), {
+      query : {
+        "filepath": encoded_filepath
+      }
+    });
+  }else{  
+    documentWindow.loadFile(join(__dirname, '..', 'views', 'document.html'));
+  }
 };
 
 

@@ -41,3 +41,12 @@ h6{
   background-size: cover;
   background-repeat: no-repeat;
 }
+#launcher-icon{
+  width: 16px;
+  height: 16px;
+  display: block;
+  background-image: url('../icons/setup.png');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
